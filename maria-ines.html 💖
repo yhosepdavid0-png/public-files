@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para María Inés 💖</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:sans-serif;
+  background:black;
+  color:white;
+}
+
+/* GALAXIA */
+.stars{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:transparent;
+  box-shadow:
+    20px 30px white, 100px 200px white, 300px 150px white,
+    400px 80px white, 600px 300px white, 800px 120px white,
+    900px 250px white, 1200px 180px white;
+  animation: animStars 10s linear infinite;
+}
+
+@keyframes animStars{
+  from{transform:translateY(0);}
+  to{transform:translateY(-1000px);}
+}
+
+/* TEXTO */
+#mensaje{
+  position:absolute;
+  top:50%;
+  width:100%;
+  text-align:center;
+  transform:translateY(-50%);
+  font-size:22px;
+  animation: aparecer 3s ease;
+}
+
+@keyframes aparecer{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+/* CORAZONES */
+.heart{
+  position:absolute;
+  color:red;
+  font-size:20px;
+  animation: subir 6s linear infinite;
+}
+
+@keyframes subir{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div id="mensaje">
+💖 María Inés 💖<br><br>
+Eres mi universo entero 🌌<br><br>
+Cada latido mío es por ti 💓<br><br>
+Te amo más de lo que las palabras pueden decir ✨
+</div>
+
+<script>
+// CREAR CORAZONES
+for(let i=0;i<25;i++){
+  let heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="💖";
+  heart.style.left=Math.random()*100+"%";
+  heart.style.animationDuration=(3+Math.random()*3)+"s";
+  document.body.appendChild(heart);
+}
+</script>
+
+</body>
+</html>
