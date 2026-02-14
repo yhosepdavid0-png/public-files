@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para María Inés 💖</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
+}
+
+/* 🌟 ESTRELLAS */
+.stars {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.stars::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow:
+    10vw 20vh white, 30vw 40vh white, 50vw 10vh white,
+    70vw 80vh white, 90vw 30vh white, 20vw 70vh white,
+    80vw 60vh white, 60vw 20vh white, 40vw 90vh white,
+    15vw 50vh white, 25vw 60vh white, 35vw 30vh white,
+    45vw 80vh white, 55vw 10vh white, 65vw 50vh white,
+    75vw 70vh white, 85vw 20vh white, 95vw 60vh white;
+}
+
+/* 💖 TÍTULO */
+.titulo {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 22px;
+  text-shadow: 0 0 10px pink;
+}
+
+/* 🎵 BOTÓN */
+button {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: pink;
+  color: white;
+  font-size: 16px;
+}
+
+/* 🔄 ORBITA */
+.orbita {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: girar 25s linear infinite;
+}
+
+@keyframes girar {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* 🪐 SATURNO */
+.saturn {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffe0a3, #c89b5b);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 60px rgba(255, 200, 120, 0.9);
+  animation: rotarSaturno 10s linear infinite;
+}
+
+@keyframes rotarSaturno {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* 💍 ANILLO */
+.saturn::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 50px;
+  border: 2px solid rgba(255, 220, 150, 0.7);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateX(65deg);
+}
+
+/* 💬 FRASES */
+.frases span {
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  text-shadow: 0 0 8px pink;
+  animation: brillo 2s infinite alternate;
+}
+
+@keyframes brillo {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div class="titulo">💖 FELIZ SAN VALENTÍN 💖</div>
+
+<button onclick="playMusic()">🎵 Reproducir canción</button>
+
+<audio id="musica" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
+
+<div class="orbita">
+  <div class="saturn"></div>
+  <div class="frases"></div>
+</div>
+
+<script>
+function playMusic() {
+  document.getElementById("musica").play();
+}
+
+/* 💬 FRASES ROMÁNTICAS */
+const frases = [
+"Eres mi todo 💖","Te amo infinito ✨","Mi vida eres tú 💕","Siempre contigo 💫",
+"Eres mi universo 🌌","Mi corazón es tuyo ❤️","Eres perfecta 💘","Te adoro 😍",
+"Mi felicidad eres tú 😊","Contigo todo es mejor 💞","Eres mi razón 💓",
+"Te pienso siempre 💭","Mi amor eterno 💗","Eres mi sueño ✨",
+"Te amo demasiado 💖","Eres mi alegría 😊","Mi princesa 👑","Mi reina 💕",
+"Eres especial 💫","Mi destino 💞","Mi luz 🌟","Mi cielo ☁️",
+"Mi todo 💖","Te necesito 💘","Eres única 💕","Mi amor bonito 💗"
+];
+
+const container = document.querySelector(".frases");
+
+const total = 100;
+const radius = 180;
+
+for (let i = 0; i < total; i++) {
+  const span = document.createElement("span");
+
+  span.innerText = frases[i % frases.length];
+
+  const angle = (i / total) * (Math.PI * 2);
+
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+
+  span.style.left = `calc(50% + ${x}px)`;
+  span.style.top = `calc(50% + ${y}px)`;
+
+  span.style.transform = "translate(-50%, -50%)";
+
+  container.appendChild(span);
+}
+</script>
+
+</body>
+</html>
