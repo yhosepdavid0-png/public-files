@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para María Inés 💖</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background:black;
+  font-family:sans-serif;
+}
+
+/* CANVAS */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+}
+
+/* TEXTO GIRANDO */
+.texto{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform-style: preserve-3d;
+  animation: girar 20s linear infinite;
+}
+
+.texto span{
+  position:absolute;
+  color:white;
+  font-size:18px;
+  white-space:nowrap;
+}
+
+@keyframes girar{
+  from{ transform: rotateY(0deg); }
+  to{ transform: rotateY(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="galaxia"></canvas>
+
+<div class="texto" id="texto"></div>
+
+<script>
+// ===== GALAXIA =====
+const canvas = document.getElementById("galaxia");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let estrellas = [];
+
+for(let i=0;i<400;i++){
+  estrellas.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    z: Math.random()*canvas.width
+  });
+}
+
+function animar(){
+  ctx.fillStyle="black";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  for(let i=0;i<estrellas.length;i++){
+    let s = estrellas[i];
+
+    s.z -= 2;
+    if(s.z<=0){
+      s.z = canvas.width;
+    }
+
+    let k = 128.0 / s.z;
+    let px = s.x * k + canvas.width/2;
+    let py = s.y * k + canvas.height/2;
+
+    if(px>=0 && px<=canvas.width && py>=0 && py<=canvas.height){
+      let size = (1 - s.z/canvas.width)*3;
+      ctx.fillStyle="white";
+      ctx.fillRect(px,py,size,size);
+    }
+  }
+
+  requestAnimationFrame(animar);
+}
+
+animar();
+
+
+// ===== TEXTO GIRANDO =====
+const frases = [
+"💖 María Inés 💖",
+"Eres mi universo entero 🌌",
+"Cada latido mío es por ti 💓",
+"Te amo más de lo que las palabras pueden decir ✨",
+"José David 💘"
+];
+
+const contenedor = document.getElementById("texto");
+
+const radio = 150;
+
+frases.forEach((texto, i)=>{
+  let span = document.createElement("span");
+  let angulo = (i / frases.length) * 360;
+
+  span.innerText = texto;
+  span.style.transform = `
+    rotateY(${angulo}deg)
+    translateZ(${radio}px)
+  `;
+
+  contenedor.appendChild(span);
+});
+</script>
+
+</body>
+</html>
+
