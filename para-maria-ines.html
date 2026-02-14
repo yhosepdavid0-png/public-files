@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para María Inés 💖</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background:black;
+  color:white;
+  font-family:sans-serif;
+  text-align:center;
+}
+
+#titulo{
+  position:absolute;
+  top:20px;
+  width:100%;
+  font-size:28px;
+  font-weight:bold;
+}
+
+/* BOTÓN MÚSICA */
+#playBtn{
+  position:absolute;
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ff4d6d;
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* SATURNO */
+#sistema{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+#saturno{
+  width:120px;
+  height:120px;
+  background:radial-gradient(circle,#f5deb3,#c2a16b);
+  border-radius:50%;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+#anillo{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:300px;
+  height:300px;
+  margin:-150px;
+  border-radius:50%;
+  animation:rotar 20s linear infinite;
+}
+
+.frase{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:14px;
+}
+
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+@keyframes rotar{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="titulo">💖 FELIZ SAN VALENTÍN 💖</div>
+<button id="playBtn">🎵 Reproducir canción</button>
+
+<div id="sistema">
+  <div id="saturno"></div>
+  <div id="anillo"></div>
+</div>
+
+<canvas id="estrellas"></canvas>
+
+<!-- 🎥 VIDEO ORIGINAL (OCULTO) -->
+<iframe id="player" width="0" height="0"
+src="https://www.youtube.com/embed/0v3n4Jx4W7I?enablejsapi=1"
+frameborder="0"></iframe>
+
+<script>
+// BOTÓN PLAY
+document.getElementById("playBtn").onclick = function(){
+  let iframe = document.getElementById("player");
+  iframe.src += "&autoplay=1";
+};
+
+// FRASES
+const frases = [
+"María Inés 💖",
+"Eres mi universo 🌌",
+"Te amo demasiado 💘",
+"Siempre tú 💫",
+"José David ❤️",
+"Mi vida eres tú",
+"Eres lo mejor que me pasó",
+"Contigo todo es perfecto"
+];
+
+const anillo = document.getElementById("anillo");
+
+frases.forEach((f,i)=>{
+  let span = document.createElement("div");
+  span.className="frase";
+
+  let angulo = (i/frases.length)*360;
+
+  span.innerText=f;
+  span.style.transform = `
+    rotate(${angulo}deg)
+    translate(120px)
+    rotate(-${angulo}deg)
+  `;
+
+  anillo.appendChild(span);
+});
+
+// ESTRELLAS
+const canvas=document.getElementById("estrellas");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let stars=[];
+
+for(let i=0;i<800;i++){
+  stars.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    size:Math.random()*2
+  });
+}
+
+function draw(){
+  ctx.fillStyle="black";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle="white";
+  stars.forEach(s=>{
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>
+
