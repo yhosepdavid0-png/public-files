@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para María Inés 💖</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:sans-serif;
+  background:radial-gradient(circle at center, #0a0a2a, #000000);
+}
+
+/* ⭐ ESTRELLAS */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  animation:blink 2s infinite alternate;
+}
+@keyframes blink{
+  from{opacity:0.2;}
+  to{opacity:1;}
+}
+
+/* 💖 TITULO */
+.titulo{
+  position:absolute;
+  top:20px;
+  width:100%;
+  text-align:center;
+  font-size:22px;
+  color:white;
+  text-shadow:0 0 20px pink;
+}
+
+/* 🎵 BOTON */
+button{
+  position:absolute;
+  top:70px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:10px 20px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(45deg,pink,#ff69b4);
+  color:white;
+  font-size:16px;
+}
+
+/* 🪐 SATURNO */
+.saturno{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:130px;
+  height:130px;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,#ffe0b2,#c19a6b);
+  border-radius:50%;
+  box-shadow:0 0 50px #ffd700;
+}
+
+/* ANILLO */
+.anillo{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:250px;
+  height:80px;
+  border:3px solid rgba(255,255,255,0.3);
+  border-radius:50%;
+  transform:translate(-50%,-50%) rotate(25deg);
+  box-shadow:0 0 20px pink;
+}
+
+/* ORBITA FRASES */
+.orbita{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:350px;
+  height:350px;
+  transform:translate(-50%,-50%);
+  animation:giro 30s linear infinite;
+}
+
+@keyframes giro{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(360deg);}
+}
+
+/* FRASES */
+.frase{
+  position:absolute;
+  font-size:11px;
+  color:white;
+  text-shadow:0 0 10px pink;
+}
+
+/* 💞 CORAZONES */
+.corazon{
+  position:absolute;
+  color:pink;
+  animation:subir 3s linear forwards;
+}
+
+@keyframes subir{
+  to{
+    transform:translateY(-200px);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="titulo">💖 FELIZ SAN VALENTÍN 💖</div>
+
+<button onclick="document.getElementById('musica').play()">🎵 Reproducir canción</button>
+
+<audio id="musica" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_7b1c1d8d5e.mp3?filename=romantic-ambient-11018.mp3">
+</audio>
+
+<div class="saturno"></div>
+<div class="anillo"></div>
+<div class="orbita" id="orbita"></div>
+
+<script>
+
+/* ⭐ ESTRELLAS */
+for(let i=0;i<200;i++){
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=(Math.random()*2+1)+"s";
+  document.body.appendChild(s);
+}
+
+/* 💖 FRASES */
+const frases=[
+"Eres mi todo","Te amo","Mi vida eres tú","Siempre contigo","Mi felicidad",
+"Eres perfecta","Mi amor","Te pienso","Eres especial","Mi universo",
+"Te adoro","Contigo todo","Mi razón","Mi sueño","Te elijo",
+"Mi princesa","Mi cielo","Te extraño","Mi corazón","Eres luz",
+"Mi paz","Te necesito","Mi destino","Eres magia","Mi amor eterno",
+"Mi alegría","Te quiero","Mi inspiración","Eres única","Mi todo",
+"Mi razón de sonreír","Mi vida entera","Eres hermosa","Mi ilusión",
+"Mi dulzura","Te amo mucho","Mi hogar","Eres todo","Mi amorcito",
+"Mi mundo","Mi sonrisa","Eres increíble","Mi sol","Te amo más",
+"Mi ternura","Mi latido","Eres perfecta","Mi angel","Te adoro mucho",
+"Mi felicidad eterna","Mi corazón tuyo","Eres mi paz","Mi reina",
+"Mi razón de vivir","Mi amor infinito","Eres mi todo","Mi calma",
+"Te amo demasiado","Mi cielo hermoso","Eres mi sueño","Mi amor bonito",
+"Mi corazón feliz","Eres especial","Mi cariño","Mi amor real",
+"Mi tesoro","Te amo siempre","Mi amor único","Mi razón diaria",
+"Eres todo para mí","Mi corazón late por ti","Mi amor sincero",
+"Mi alegría eterna","Eres mi vida","Mi amor verdadero","Mi luz",
+"Mi cielo lindo","Mi amor puro","Eres mi felicidad","Mi corazón feliz",
+"Mi todo siempre","Mi amor bello","Eres mi destino","Mi amor eterno",
+"Mi alegría total","Mi amor sin fin","Eres mi inspiración","Mi amor lindo",
+"Mi amor bonito","Mi razón eterna","Eres mi paz","Mi amor real",
+"Mi felicidad total","Mi amor infinito","Eres mi todo 💖","Siempre tú ❤️"
+];
+
+for(let i=0;i<100;i++){
+  let f=document.createElement("div");
+  f.className="frase";
+  f.innerText=frases[i];
+
+  let ang=(i/100)*2*Math.PI;
+  let r=150;
+
+  f.style.left=(175+r*Math.cos(ang))+"px";
+  f.style.top=(175+r*Math.sin(ang))+"px";
+
+  document.getElementById("orbita").appendChild(f);
+}
+
+/* 💞 CORAZONES AL TOCAR */
+document.addEventListener("click",e=>{
+  let h=document.createElement("div");
+  h.className="corazon";
+  h.innerText="💖";
+
+  h.style.left=e.clientX+"px";
+  h.style.top=e.clientY+"px";
+
+  document.body.appendChild(h);
+
+  setTimeout(()=>h.remove(),3000);
+});
+
+</script>
+
+</body>
+</html>
