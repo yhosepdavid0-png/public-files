@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para María Inés 💖</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
+  touch-action: none;
+}
+
+/* 🌟 ESTRELLAS OPTIMIZADAS */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* 💖 TÍTULO */
+.titulo {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 22px;
+  text-shadow: 0 0 15px pink;
+  z-index: 10;
+}
+
+/* 🎵 BOTÓN */
+button {
+  position: absolute;
+  top: 65px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: pink;
+  color: white;
+  font-size: 16px;
+  z-index: 10;
+}
+
+/* 🌍 CONTENEDOR ROTABLE */
+.scene {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* 🪐 SATURNO */
+.saturn {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffe0a3, #c89b5b);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 60px rgba(255, 200, 120, 0.9);
+}
+
+/* 💍 ANILLO */
+.saturn::after {
+  content: "";
+  position: absolute;
+  width: 200px;
+  height: 60px;
+  border: 2px solid rgba(255, 220, 150, 0.7);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateX(65deg);
+}
+
+/* 💬 FRASES */
+.frases span {
+  position: absolute;
+  color: white;
+  font-size: 13px;
+  text-shadow: 0 0 10px pink;
+  animation: brillo 2s infinite alternate;
+}
+
+@keyframes brillo {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="titulo">💖 FELIZ SAN VALENTÍN 💖</div>
+
+<button onclick="playMusic()">🎵 Reproducir canción</button>
+
+<audio id="musica" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
+</audio>
+
+<div class="scene" id="scene">
+  <div class="saturn"></div>
+  <div class="frases" id="frases"></div>
+</div>
+
+<script>
+/* 🎵 MÚSICA */
+function playMusic() {
+  document.getElementById("musica").play();
+}
+
+/* 🌟 ESTRELLAS CON CANVAS (MUCHO MÁS PRO) */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+for (let i = 0; i < 300; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5
+  });
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  stars.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* 💬 50 FRASES BONITAS */
+const frases = [
+"Eres mi todo 💖","Te amo infinito ✨","Mi vida eres tú 💕","Siempre contigo 💫",
+"Eres mi universo 🌌","Mi corazón es tuyo ❤️","Eres perfecta 💘","Te adoro 😍",
+"Mi felicidad eres tú 😊","Contigo todo es mejor 💞","Eres mi razón 💓",
+"Te pienso siempre 💭","Mi amor eterno 💗","Eres mi sueño ✨",
+"Te amo demasiado 💖","Eres mi alegría 😊","Mi princesa 👑","Mi reina 💕",
+"Eres especial 💫","Mi destino 💞","Mi luz 🌟","Mi cielo ☁️",
+"Mi amor bonito 💗","Eres mi paz 🕊️","Mi corazón late por ti ❤️",
+"Siempre tú 💞","Mi felicidad eterna 💖","Eres magia ✨",
+"Mi vida entera 💕","Eres mi inspiración 💫","Mi razón de vivir 💓",
+"Mi mundo 🌍","Mi estrella 🌟","Te amo hoy y siempre 💖",
+"Eres mi ilusión 💭","Mi alegría diaria 😊","Mi sueño real 💫",
+"Mi amor sincero 💗","Eres perfecta para mí 💕","Mi todo siempre 💖",
+"Mi corazón feliz ❤️","Mi universo entero 🌌","Eres lo mejor 💞",
+"Mi vida hermosa 💕","Mi amor eterno 💗","Siempre juntos 💖",
+"Mi felicidad total 😊","Eres mi destino 💫"
+];
+
+const container = document.getElementById("frases");
+const total = 50;
+const radius = 220;
+
+for (let i = 0; i < total; i++) {
+  const span = document.createElement("span");
+
+  span.innerText = frases[i];
+
+  const angle = (i / total) * (Math.PI * 2);
+
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+
+  span.style.left = `calc(50% + ${x}px)`;
+  span.style.top = `calc(50% + ${y}px)`;
+
+  span.style.transform = "translate(-50%, -50%)";
+
+  container.appendChild(span);
+}
+
+/* 👉 ROTACIÓN CON EL DEDO (360° REAL) */
+let scene = document.getElementById("scene");
+let rotation = 0;
+let lastX = 0;
+
+document.addEventListener("touchstart", e => {
+  lastX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchmove", e => {
+  let currentX = e.touches[0].clientX;
+  let delta = currentX - lastX;
+
+  rotation += delta * 0.3;
+
+  scene.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+  lastX = currentX;
+});
+</script>
+
+</body>
+</html>
