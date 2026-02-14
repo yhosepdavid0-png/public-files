@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saturno Amor 360</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+}
+
+canvas {
+  display: block;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="musica" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+camera.position.z = 12;
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// ⭐ ESTRELLAS
+const starsGeometry = new THREE.BufferGeometry();
+const starsCount = 3000;
+const positions = [];
+
+for(let i=0;i<starsCount;i++){
+  positions.push(
+    (Math.random()-0.5)*200,
+    (Math.random()-0.5)*200,
+    (Math.random()-0.5)*200
+  );
+}
+
+starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+
+const starsMaterial = new THREE.PointsMaterial({
+  color: 0xffffff,
+  size: 0.7
+});
+
+const stars = new THREE.Points(starsGeometry, starsMaterial);
+scene.add(stars);
+
+// 🪐 SATURNO
+const saturnGeometry = new THREE.SphereGeometry(2.5, 64, 64);
+const saturnMaterial = new THREE.MeshBasicMaterial({color: 0xffcc88});
+const saturn = new THREE.Mesh(saturnGeometry, saturnMaterial);
+scene.add(saturn);
+
+// ANILLO
+const ringGeometry = new THREE.RingGeometry(3.5, 5.5, 64);
+const ringMaterial = new THREE.MeshBasicMaterial({
+  color: 0xff66aa,
+  side: THREE.DoubleSide,
+  transparent: true,
+  opacity: 0.6
+});
+const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+ring.rotation.x = Math.PI / 2;
+saturn.add(ring);
+
+// 💖 FRASES (menos y ordenadas)
+const frases = [
+"Te amo","Mi vida","Eres todo","Mi cielo","Mi amor",
+"Mi reina","Mi princesa","Eres única","Te adoro","Mi felicidad",
+"Mi mundo","Siempre tú","Mi sol","Mi estrella","Mi paz",
+"Mi todo","Contigo todo","Eres magia","Mi destino","Te pienso",
+"Mi razón","Mi alegría","Mi tesoro","Eres perfecta","Mi sueño",
+"Siempre juntos","Mi luz","Mi encanto","Mi razón de ser","Eres especial"
+];
+
+const grupoFrases = new THREE.Group();
+
+frases.forEach((texto,i)=>{
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 256;
+  canvas.height = 64;
+
+  ctx.fillStyle = "white";
+  ctx.font = "20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(texto,128,40);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({map:texture});
+  const sprite = new THREE.Sprite(material);
+
+  const angle = (i/frases.length)*Math.PI*2;
+  const radius = 7;
+
+  sprite.position.set(
+    Math.cos(angle)*radius,
+    (Math.random()-0.5)*3,
+    Math.sin(angle)*radius
+  );
+
+  sprite.scale.set(2,0.6,1);
+  grupoFrases.add(sprite);
+});
+
+scene.add(grupoFrases);
+
+// 🎮 CONTROL TÁCTIL + ZOOM
+let isDragging = false;
+let prevX = 0;
+let prevY = 0;
+
+document.addEventListener("touchstart", e=>{
+  isDragging = true;
+  prevX = e.touches[0].clientX;
+  prevY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchmove", e=>{
+  if(!isDragging) return;
+  const dx = e.touches[0].clientX - prevX;
+  const dy = e.touches[0].clientY - prevY;
+
+  grupoFrases.rotation.y += dx * 0.005;
+  grupoFrases.rotation.x += dy * 0.005;
+
+  prevX = e.touches[0].clientX;
+  prevY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", ()=> isDragging=false);
+
+// ZOOM
+document.addEventListener("wheel", e=>{
+  camera.position.z += e.deltaY * 0.01;
+});
+
+// ▶️ ACTIVAR MÚSICA
+document.addEventListener("click", ()=>{
+  document.getElementById("musica").play();
+}, {once:true});
+
+// 🔁 ANIMACIÓN
+function animate(){
+  requestAnimationFrame(animate);
+
+  saturn.rotation.y += 0.01;
+  grupoFrases.rotation.y += 0.002;
+  stars.rotation.y += 0.0005;
+
+  renderer.render(scene,camera);
+}
+
+animate();
+
+// RESPONSIVE
+addEventListener("resize", ()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+
+</body>
+</html>
+ 
